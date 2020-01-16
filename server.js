@@ -10,13 +10,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
 //Routers
+const episodeController = require('./controllers/episodes');
+app.use('/episodes', episodeController);
 
 app.get('/', (req,res)=>{
   res.render(index.html);
 });
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/officeranker'
-mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
 mongoose.connection.once('open', ()=>{
 	console.log("That's what she said.");
@@ -27,5 +29,5 @@ const port = process.env.PORT || PORT;
 
 app.listen(port, ()=>{
   console.log("Dunder Mifflin, this is Pam.")
-  console.log("==========================PORT " + PORT + "==================================")
+  console.log("PORT ==========" + PORT + "==========")
 });
